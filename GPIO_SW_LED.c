@@ -150,7 +150,7 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void Button_LED()
 {
-	if(!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) // BULE Button
+		 if(!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) // BULE Button
 		 {
 			 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); // LD2 on STM Board
 			 HAL_Delay(200);
