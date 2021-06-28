@@ -94,9 +94,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  //Button_LED();
+	  Button_LED();
 	  //LED_Shift();
-	  LED_Shift_Macro();
+	  //LED_Shift_Macro();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -150,33 +150,55 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void Button_LED()
 {
-	         if(!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) // BULE Button
+	if(!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)) // BULE Button
 		 {
 			 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); // LD2 on STM Board
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		 }
 
 		 if(!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_8)) // SW1
 		 {
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_0); // LED1
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_0);
+
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_1); // LED2
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_1);
 		 }
 
 		 if(!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)) // SW2
 		 {
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_2); // LED3
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_2);
+
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3); // LED4
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_3);
 		 }
 
 		 if(!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5)) // SW3
 		 {
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_4); // LED5
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_4);
+
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_5); // LED6
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_5);
 		 }
 
 		 if(!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10)) // SW4
 		 {
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_6); // LED7
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_6);
+
 			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7); // LED8
+			 HAL_Delay(200);
+			 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 		 }
 }
 
@@ -205,7 +227,7 @@ void LED_Shift()
 
 void LED_Shift_Macro()
 {
-	          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
+	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
 		  HAL_Delay(1000);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
@@ -233,19 +255,19 @@ void LED_Shift_Macro()
 		  HAL_Delay(1000);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 1);
-	          HAL_Delay(1000);
+	      HAL_Delay(1000);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 1);
-	          HAL_Delay(1000);
+	      HAL_Delay(1000);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
-	          HAL_Delay(1000);
+	      HAL_Delay(1000);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
-	          HAL_Delay(1000);
+	      HAL_Delay(1000);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
-	          HAL_Delay(1000);
+	      HAL_Delay(1000);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
 	  	  HAL_Delay(1000);
