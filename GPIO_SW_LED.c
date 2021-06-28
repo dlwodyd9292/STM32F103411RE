@@ -119,79 +119,81 @@ int main(void)
 		 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_6); // LED7
 		 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7); // LED8
 	 }
-//----------------------------------------------------------
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, 0);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 1);
-//	  HAL_Delay(1000);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 0);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 1);
-//    HAL_Delay(1000);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 0);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 1);
-//    HAL_Delay(1000);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 0);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
-//    HAL_Delay(1000);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
-//    HAL_Delay(1000);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
-//    HAL_Delay(1000);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
-// 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
-// 	  HAL_Delay(1000); 
 
-// HAL 드라이버를 무식하게 사용해 LED를 쉬프트 하는 방법 
-//----------------------------------------------------------
-	 uint16_t LED = 0x0001; // LED1 번 값 저장 
+	 //----------------------------------------------------------
+	 
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, 0);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 1);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 0);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 1);
+      HAL_Delay(1000);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 0);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 1);
+      HAL_Delay(1000);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 0);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
+      HAL_Delay(1000);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
+      HAL_Delay(1000);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
+      HAL_Delay(1000);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
+  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
+  	  HAL_Delay(1000);
+  	  
+  	//----------------------------------------------------------
+  	  
+  	  uint16_t LED = 0x0001; // LED1 번 값
+	
+  	  do{
+		 HAL_GPIO_WritePin(GPIOC, LED, 1);
+		 HAL_Delay(1000);
 
-//	 do{
-//		 HAL_GPIO_WritePin(GPIOC, LED, 1);
-//		 HAL_Delay(1000);
-//
-//		 LED = LED << 1;
-//		 //LED = LED & 0xFE;
-//
-//	 }while(LED != 0x0100); // LED가 8 이상 될때까지 do문 반복
-//
-//	 do{
-// 		 HAL_GPIO_WritePin(GPIOC, LED, 0);
-// 		 HAL_Delay(1000);
-//
-// 		 LED = LED >> 1;
-//	 		 //LED = LED & 0xFE;
-//
-//	 	 }while(LED != 0x0000); // LED가 0 이하 될 때 까지 do문 반복
+		 LED = LED << 1;
+		 //LED = LED & 0xFE;
+
+	 }while(LED != 0x0100); // LED가 8 이상 될때까지 do문 반복
+
+	 do{
+ 		 HAL_GPIO_WritePin(GPIOC, LED, 0);
+ 		 HAL_Delay(1000);
+
+ 		 LED = LED >> 1;
+ 		 //LED = LED & 0xFE;
+
+	 	 }while(LED != 0x0000); // LED가 0 이하 될 때 까지 do문 반복
+	 
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
-  /* USER CODE END 3 */
 }
 
 /**
