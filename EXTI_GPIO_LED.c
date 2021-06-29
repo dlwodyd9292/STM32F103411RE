@@ -44,18 +44,8 @@
 
 /* USER CODE BEGIN PV */
 int flag1 = 0, flag2 = 0;
-uint16_t LEDs;
-uint16_t LED[8] = {
-		0x0001, 0x0002, 0x0004, 0x0008,
-		0x0010, 0x0020, 0x0040, 0x0080
-}; // Sw1 쉬프트용
+uint16_t LED = 0x01;
 
-uint16_t LED2[8] = {
-		0x0080, 0x0040, 0x0020, 0x0010,
-		0x0008, 0x0004, 0x0002, 0x0001
-}; // Sw2 쉬프트용
-
-uint16_t LED_Current1, LED_Current2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -109,33 +99,23 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	 if(flag1 == 1) //Sw3 push
-	 {
-	  	 for(int i = 0; i < 8; i++)
-    	 {
-			LEDs = LED[i];
-
-			 HAL_GPIO_WritePin(GPIOC, LEDs, 1);
-			 HAL_Delay(1000);
-			 HAL_GPIO_WritePin(GPIOC, LEDs, 0);
-			 if(flag2 == 1) break;
-    	 }
-	  	 flag1 = 0;
-	 }
-	 if(flag2 == 1) //Sw4 push
-	 {
-		for(int i = 0; i < 8; i++)
+		if(flag1 == 1)
 		{
-			LEDs = LED[i];
+					LED = LED << 1;
+					if(LED > 0x80) LED = 0x01;
+					HAL_GPIO_WritePin(GPIOC, LED, 1);
+					HAL_Delay(500);
+					HAL_GPIO_WritePin(GPIOC, LED, 0);
+		}
 
-		    HAL_GPIO_WritePin(GPIOC, LEDs, 1);
-		    HAL_Delay(1000);
-		    HAL_GPIO_WritePin(GPIOC, LEDs, 0);
-
-		    if(flag1 == 1) break;
-		 }
-		flag2 = 0;
-	 }
+		if(flag2 ==1)
+		{
+					LED = LED >> 1;
+					if(LED < 0x01) LED = 0x80;
+					HAL_GPIO_WritePin(GPIOC, LED, 1);
+					HAL_Delay(500);
+					HAL_GPIO_WritePin(GPIOC, LED, 0);
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -193,12 +173,12 @@ void SystemClock_Config(void)
   */
 static void MX_NVIC_Init(void)
 {
-  /* EXTI9_5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
   /* EXTI4_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+  /* EXTI9_5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
   /* EXTI15_10_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
@@ -218,9 +198,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	else if(GPIO_Pin == GPIO_PIN_5) //SW3
 	{
 		flag1 = 1;
+		flag2 = 0;
 	}
 	else if(GPIO_Pin == GPIO_PIN_10) //SW4
 	{
+		flag1 = 0;
 		flag2 = 1;
 	}
 }
