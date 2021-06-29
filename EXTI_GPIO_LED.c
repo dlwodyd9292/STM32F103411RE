@@ -44,6 +44,7 @@
 
 /* USER CODE BEGIN PV */
 int flag1 = 0, flag2 = 0;
+uint16_t LEDs;
 uint16_t LED[8] = {
 		0x0001, 0x0002, 0x0004, 0x0008,
 		0x0010, 0x0020, 0x0040, 0x0080
@@ -54,6 +55,7 @@ uint16_t LED2[8] = {
 		0x0008, 0x0004, 0x0002, 0x0001
 }; // Sw2 쉬프트용
 
+uint16_t LED_Current1, LED_Current2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -111,21 +113,28 @@ int main(void)
 	 {
 	  	 for(int i = 0; i < 8; i++)
     	 {
-  		 uint16_t LEDs = LED[i];
-		 HAL_GPIO_WritePin(GPIOC, LEDs, 1);
-		 HAL_Delay(1000);
-		 HAL_GPIO_WritePin(GPIOC, LEDs, 0);
+			LEDs = LED[i];
+
+			 HAL_GPIO_WritePin(GPIOC, LEDs, 1);
+			 HAL_Delay(1000);
+			 HAL_GPIO_WritePin(GPIOC, LEDs, 0);
+			 if(flag2 == 1) break;
     	 }
+	  	 flag1 = 0;
 	 }
-	 else if(flag2 == 1) //Sw4 push
+	 if(flag2 == 1) //Sw4 push
 	 {
 		for(int i = 0; i < 8; i++)
 		{
-			uint16_t LEDs = LED2[i];
+			LEDs = LED[i];
+
 		    HAL_GPIO_WritePin(GPIOC, LEDs, 1);
 		    HAL_Delay(1000);
 		    HAL_GPIO_WritePin(GPIOC, LEDs, 0);
+
+		    if(flag1 == 1) break;
 		 }
+		flag2 = 0;
 	 }
     /* USER CODE END WHILE */
 
