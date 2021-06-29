@@ -204,7 +204,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	}
 	else if(GPIO_Pin == GPIO_PIN_4) //SW2
 	{
-		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_All, 0);
+		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_All);
 	}
 	else if(GPIO_Pin == GPIO_PIN_5) //SW3
 	{
@@ -216,87 +216,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	}
 }
 
-void LED_Shift()
-{
-  	  uint16_t LED = 0x0001; // LED1 번 값
-
-  	 do{
-		 HAL_GPIO_WritePin(GPIOC, LED, 1);
-		 HAL_Delay(1000);
-
-		 LED = LED << 1;
-		 //LED = LED & 0xFE;
-
-	 }while(LED != 0x0100); // LED가 8 이상 될때까지 do문 반복
-
-	 do{
- 		 HAL_GPIO_WritePin(GPIOC, LED, 0);
- 		 HAL_Delay(1000);
-
- 		 LED = LED >> 1;
- 		 //LED = LED & 0xFE;
-
-	 	 }while(LED != 0x0000); // LED가 0 이하 될 때 까지 do문 반복
-}
-
-void LED_Shift_Macro()
-{
-	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, 0);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 1);
-		  HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, 0);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 1);
-	      HAL_Delay(1000);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, 0);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 1);
-	      HAL_Delay(1000);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, 0);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
-	      HAL_Delay(1000);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
-	      HAL_Delay(1000);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
-	      HAL_Delay(1000);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
-	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
-	  	  HAL_Delay(1000);
-
-}
-
-void LED_SW1()
-{
- 	 for(int i = 0; i < 8; i++)
- 	 {
- 		 uint16_t LEDs = LED[i];
-		 HAL_GPIO_WritePin(GPIOC, LEDs, 1);
-		 HAL_Delay(1000);
-	 }
-}
 /* USER CODE END 4 */
 
 /**
