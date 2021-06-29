@@ -248,23 +248,23 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void LCD_pulse_enable(void)
+void LCD_pulse_enable(void) // Master give Slave Signal
 {
    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
    HAL_Delay(1);
    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
    HAL_Delay(1);
 }
-void LCD_write_data(uint8_t data)
+void LCD_write_data(uint8_t data) // Giving Data through GPIO C's ODR(data out register) 
 {
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET);
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET); // Using PORTB PIN 13 to control Pin
    GPIOC -> ODR = data;
    LCD_pulse_enable();
    HAL_Delay(2);
 }
-void LCD_write_command(uint8_t command)
+void LCD_write_command(uint8_t command) // Giving Command through GPIO C's ODR(data out register) 
 {
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET);
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET); // Using PORTB PIN 13 to control Pin
    GPIOC->ODR = command;
    LCD_pulse_enable();
    HAL_Delay(2);
@@ -277,9 +277,9 @@ void LCD_clear(void)
 void LCD_init(void)
 {
    HAL_Delay(50);
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
-   LCD_write_command(0x38);
-   uint8_t command = 0x08 | (1 << 2);
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET); // Using PORTB PIN 14 to control Pin
+   LCD_write_command(0x38); //8bit 
+   uint8_t command = 0x08 | (1 << 2); 
    LCD_write_command(command);
    LCD_clear();
    LCD_write_command(0x06);
