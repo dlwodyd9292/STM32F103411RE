@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -40,7 +41,6 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
@@ -48,14 +48,72 @@ UART_HandleTypeDef huart2;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void LCD_pulse_enable(void) // Master give Slave Signal
+{
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+   HAL_Delay(1);
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+   HAL_Delay(1);
+}
+
+void LCD_write_data(uint8_t data) // Giving Data through GPIO C's ODR(data out register)
+{
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET); // Using PORTB PIN 13 to control Pin
+   GPIOC -> ODR = data;
+   LCD_pulse_enable();
+   HAL_Delay(2);
+}
+
+void LCD_write_command(uint8_t command) // Giving Command through GPIO C's ODR(data out register)
+{
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET); // Using PORTB PIN 13 to control Pin
+   GPIOC->ODR = command;
+   LCD_pulse_enable();
+   HAL_Delay(2);
+}
+
+void LCD_clear(void)
+{
+   LCD_write_command(0x01);
+   HAL_Delay(2);
+}
+
+void LCD_init(void)
+{
+   HAL_Delay(50);
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET); // Using PORTB PIN 14 to control Pin
+   LCD_write_command(0x38); //8bit
+   uint8_t command = 0x08 | (1 << 2);
+   LCD_write_command(command);
+   LCD_clear();
+   LCD_write_command(0x06);
+}
+
+void LCD_write_string(char *string)
+{
+   uint8_t i;
+   for(i = 0; string[i] ; i++)
+   {
+      LCD_write_data(string[i]);
+   }
+}
+
+void LCD_goto_XY(uint8_t row, uint8_t col)
+{
+   col %= 16;
+   row %= 2;
+
+   uint8_t address = (0x40 * row) + col;
+   uint8_t command = 0x80 + address;
+
+   LCD_write_command(command);
+}
 
 /* USER CODE END 0 */
 
@@ -87,7 +145,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   LCD_init();
   LCD_write_string("Hello World!");
@@ -158,150 +215,8 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3
-                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_4|LD2_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PC0 PC1 PC2 PC3
-                           PC4 PC5 PC6 PC7 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3
-                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA0 PA1 PA4 LD2_Pin */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_4|LD2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PB0 PB13 PB14 PB15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-}
-
 /* USER CODE BEGIN 4 */
-void LCD_pulse_enable(void) // Master give Slave Signal
-{
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
-   HAL_Delay(1);
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
-   HAL_Delay(1);
-}
-void LCD_write_data(uint8_t data) // Giving Data through GPIO C's ODR(data out register) 
-{
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET); // Using PORTB PIN 13 to control Pin
-   GPIOC -> ODR = data;
-   LCD_pulse_enable();
-   HAL_Delay(2);
-}
-void LCD_write_command(uint8_t command) // Giving Command through GPIO C's ODR(data out register) 
-{
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET); // Using PORTB PIN 13 to control Pin
-   GPIOC->ODR = command;
-   LCD_pulse_enable();
-   HAL_Delay(2);
-}
-void LCD_clear(void)
-{
-   LCD_write_command(0x01);
-   HAL_Delay(2);
-}
-void LCD_init(void)
-{
-   HAL_Delay(50);
-   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET); // Using PORTB PIN 14 to control Pin
-   LCD_write_command(0x38); //8bit 
-   uint8_t command = 0x08 | (1 << 2); 
-   LCD_write_command(command);
-   LCD_clear();
-   LCD_write_command(0x06);
-}
-void LCD_write_string(char *string)
-{
-   uint8_t i;
-   for(i = 0; string[i] ; i++)
-   {
-      LCD_write_data(string[i]);
-   }
-}
-void LCD_goto_XY(uint8_t row, uint8_t col)
-{
-   col %= 16;
-   row %= 2;
 
-   uint8_t address = (0x40 * row) + col;
-   uint8_t command = 0x80 + address;
-
-   LCD_write_command(command);
-}
 /* USER CODE END 4 */
 
 /**
