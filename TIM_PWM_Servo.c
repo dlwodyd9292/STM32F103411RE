@@ -190,14 +190,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 //		{
 //			TIM3->CCR1 = 9999;
 //		}
-	////////////////////////////////////////////////////// Servo 
+	////////////////////////////////////////////////////// Servo
 		if(GPIO_Pin == GPIO_PIN_8)  // Sw1
 		{
 			TIM3->CCR1 = 1300; // 0
 		}
 		if(GPIO_Pin == GPIO_PIN_4) // Sw2
 		{
-			TIM3->CCR1 = 750; // 90
+			TIM3->CCR1 = 800; // 90
 		}
 		if(GPIO_Pin == GPIO_PIN_5) // Sw3
 		{
@@ -205,7 +205,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		}
 
 		//1300 -> 0 / 750 - > 90 / 300 - 180
-	////////////////////////////////////////////////////// Servo 
+	////////////////////////////////////////////////////// Servo
 }
 /* USER CODE END 4 */
 
