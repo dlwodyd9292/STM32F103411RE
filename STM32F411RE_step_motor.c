@@ -44,7 +44,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t step_data[] = {0x01, 0x03, 0x02, 0x06, 0x04, 0x0c, 0x08, 0x09}; //
 
 /* USER CODE END PV */
 
@@ -175,68 +174,68 @@ static void MX_NVIC_Init(void)
 /* USER CODE BEGIN 4 */
 void Step_Motor()
 {
-	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1); //  A
+	          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1); //  A
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0); //  B
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0); // /A
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0); // /B
 		  HAL_Delay(1);
-		  // 1
+		  // 1 0x01
 
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
 	  	  HAL_Delay(1);
-	  	  // 2
+	  	  // 2 0x03
 
-	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
+	          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
 		  HAL_Delay(1);
-		  // 3
+		  // 3 0x02
 
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
 		  HAL_Delay(1);
-		  //4
+		  //4 0x06
 
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
 	  	  HAL_Delay(1);
-	  	  // 5
+	  	  // 5 0x04
 
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
 	  	  HAL_Delay(1);
-	  	  // 6
+	  	  // 6 0x0c
 
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
 	  	  HAL_Delay(1);
-	  	  // 7
+	  	  // 7 0x08
 
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
 	  	  HAL_Delay(1);
-	  	  // 8
+	  	  // 8  0x09
 
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
 	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
 	  	  HAL_Delay(1);
-	  	  // 9
+	  	  // 9 0x01
 }
 /* USER CODE END 4 */
 
