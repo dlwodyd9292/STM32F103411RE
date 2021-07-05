@@ -38,14 +38,14 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define STEP 4000
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t step_data[] = {0x01, 0x03, 0x02, 0x06, 0x04, 0x0c, 0x08, 0x09}; // 
-int step_index = -1;			
+uint16_t step_data[] = {0x01, 0x03, 0x02, 0x06, 0x04, 0x0c, 0x08, 0x09}; //
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,21 +57,7 @@ static void MX_NVIC_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t stepForward(void)			
-{
-	step_index++;
-	if(step_index >= 8) step_index = 0; 
 
-	return step_data[step_index];
-}
-
-uint8_t stepBackward(void)		
-{
-	step_index--;
-	if(step_index < 0) step_index = 8; 
-
-	return step_data[step_index];
-}
 /* USER CODE END 0 */
 
 /**
@@ -114,19 +100,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  for(int i = 0; i < STEP; i++){		
-	  			GPIOC->ODR = stepForward();		
-
-	  			HAL_Delay(5);			
-	  		}
-	  		 HAL_Delay(100);
-
-	  		for(int i = 0; i < STEP; i++){		
-	  			GPIOC->ODR = stepBackward();		
-
-	  			HAL_Delay(5);			
-	  		}
-	  		HAL_Delay(100);
+	  //Step_Motor();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -199,7 +173,71 @@ static void MX_NVIC_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void Step_Motor()
+{
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1); //  A
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0); //  B
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0); // /A
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0); // /B
+		  HAL_Delay(1);
+		  // 1
 
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
+	  	  HAL_Delay(1);
+	  	  // 2
+
+	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
+		  HAL_Delay(1);
+		  // 3
+
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 1);
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
+		  HAL_Delay(1);
+		  //4
+
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
+	  	  HAL_Delay(1);
+	  	  // 5
+
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 1);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
+	  	  HAL_Delay(1);
+	  	  // 6
+
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
+	  	  HAL_Delay(1);
+	  	  // 7
+
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 1);
+	  	  HAL_Delay(1);
+	  	  // 8
+
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, 1);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, 0);
+	  	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, 0);
+	  	  HAL_Delay(1);
+	  	  // 9
+}
 /* USER CODE END 4 */
 
 /**
