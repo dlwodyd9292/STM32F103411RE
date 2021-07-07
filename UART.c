@@ -51,19 +51,41 @@
 void SystemClock_Config(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
-int _write(int file, char *ptr, int len) // Function for 'printf'
+//int _write(int file, char *ptr, int len) // Function for 'printf'
+//{
+//	HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, 100);
+//	return len;
+//}
+
+#ifdef __GNUC__
+  /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
+     set to 'Yes') calls __io_putchar() */
+  #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+  #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  * @param  None
+  * @retval None
+  */
+PUTCHAR_PROTOTYPE
 {
-	HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, 100);
-	return len;
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the EVAL_COM1 and Loop until the end of transmission */
+  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
+
+  return ch;
 }
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-char ptr[] = "\n\rUART Example 3 (Transmission Success !!)\n\r\n\r"; // for Ex.3
-uint8_t data; //Rx buffer use '&' if it is not array!!
-//uint8_t data_one[] = "\n\rUART Example 4 (Transmission Success !!)\n\r\n\r"; //for Ex.4
-//uint8_t data_two[] = "\n\rA Message from HAL_UART_TxCpltCallback() !!\n\r\n\r"; //for Ex. 4
+//char ptr[] = "\n\rUART Example 3 (Transmission Success !!)\n\r\n\r"; // for Ex.3
+//uint8_t data; //Rx buffer use '&' if it is not array!!
+//uint8_t TxBuffer[] = "\n\rUART Example 4 (Transmission Success !!)\n\r\n\r"; //for Ex.4
+//uint8_t TxBuffer_3[] = "\n\r A Message from HAL_UART_TxCpltCallback() !!\n\r\n\r"; //for Ex. 4
+//uint8_t RxBuffer[0xFF]; // for Ex.4
 /* USER CODE END 0 */
 
 /**
@@ -99,24 +121,25 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-   HAL_UART_Transmit(&huart2, (uint8_t*)ptr, sizeof(ptr), 0xFFFF);
- // HAL_UART_Transmit(&huart2, (uint8_t*)data_one, sizeof(data_one), 10); //for Ex.4
-  //HAL_UART_Transmit_IT(&huart2, (uint8_t*)data_two, sizeof(data_two));  //for Ex.4
+  // HAL_UART_Transmit(&huart2, (uint8_t*)ptr, sizeof(ptr), 0xFFFF); //for Ex.3
+  // HAL_UART_Transmit(&huart2, (uint8_t*)TxBuffer, sizeof(TxBuffer), 0xFFFF); //for Ex.4
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	 /*
-	  printf("\n\rUART Example 1 (Transmission Success !!)\n\r\n\r");
+
+	  printf("\n\r Using printf() Function PUTCHAR_PROTOTYPE\n\r\n\r");
 	  HAL_Delay(1000);
-	  Ex.1
-	 */
-	  if(HAL_UART_Receive(&huart2, &data, sizeof(data), 5000) == HAL_OK)
-	  {
-		  HAL_UART_Transmit(&huart2, &data, sizeof(data), 5000);
-	  }//Ex.3
+
+//	  if(HAL_UART_Receive(&huart2, &data, sizeof(data), 5000) == HAL_OK)
+//	  {
+//		  HAL_UART_Transmit(&huart2, &data, sizeof(data), 5000);
+//	  }//Ex.3
+
+//	  HAL_UART_Receive_IT(&huart2, (uint8_t*)RxBuffer, 1);  //for Ex.4
 
     /* USER CODE END WHILE */
   }
@@ -221,14 +244,15 @@ static void MX_NVIC_Init(void)
 //////////////////////////////////////////////////////////////////////Ex.4
 //void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 //{
-//	HAL_UART_Transmit(&huart2, (uint8_t*)data_one, sizeof(data_one), 10);
+//	HAL_UART_Transmit(&huart2, (uint8_t*)TxBuffer_3, sizeof(TxBuffer_3), 0xFFFF);
 //}
 //
 //void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 //{
-//	HAL_UART_Transmit_IT(&huart2, (uint8_t*)data_two, sizeof(data_two));
+//	HAL_UART_Transmit_IT(&huart2, (uint8_t*)RxBuffer, 1);
 //}
 //////////////////////////////////////////////////////////////////////Ex.4
+
 /* USER CODE END 4 */
 
 /**
