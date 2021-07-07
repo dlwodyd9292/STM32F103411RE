@@ -99,7 +99,7 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-
+   HAL_UART_Transmit(&huart2, (uint8_t*)ptr, sizeof(ptr), 0xFFFF);
  // HAL_UART_Transmit(&huart2, (uint8_t*)data_one, sizeof(data_one), 10); //for Ex.4
   //HAL_UART_Transmit_IT(&huart2, (uint8_t*)data_two, sizeof(data_two));  //for Ex.4
   /* USER CODE END 2 */
@@ -113,11 +113,9 @@ int main(void)
 	  HAL_Delay(1000);
 	  Ex.1
 	 */
-
-
-	  if(HAL_UART_Receive(&huart2, &data, 1, 10) == HAL_OK)
+	  if(HAL_UART_Receive(&huart2, &data, sizeof(data), 5000) == HAL_OK)
 	  {
-		  HAL_UART_Transmit(&huart2, &data, 1, 10);
+		  HAL_UART_Transmit(&huart2, &data, sizeof(data), 5000);
 	  }//Ex.3
 
     /* USER CODE END WHILE */
