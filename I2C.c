@@ -101,13 +101,13 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  lcd_init();
-  lcd_setCursor(0,0);
-  lcd_send_string("Hello KCCI");
-  HAL_Delay(1000);
-  lcd_setCursor(1,0);
-  lcd_send_string("Kim, Jiwoo");
-  HAL_Delay(2000);
+    lcd_init();
+    lcd_setCursor(0,0);
+    lcd_send_string("Hello I2C");
+    HAL_Delay(1000);
+    lcd_setCursor(1,0);
+    lcd_send_string("LEE, Jaeyong");
+    HAL_Delay(2000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
